@@ -1,0 +1,81 @@
+public class CipherCoder {
+	//Attributes
+		String message, shiftresult="", finalresult="";
+		int shift, rotate;
+	//Setter Functions
+		void setMessage(String messageIn) {
+			message = messageIn;
+		}
+		void setShift(int shiftIn) {
+			shift = shiftIn;
+		}
+		void setRotate(int rotateIn) {
+			rotate = rotateIn;
+		}
+	//Input Verification Method
+		void verifyInput() {
+			if (message.length() < 1 || !message.matches(".*[a-zA-Z]+.*")) {
+				System.out.println("At least one letter should be provided");
+				System.exit(0);
+			}else if (shift < 0 || shift > 25) {
+				System.out.println("The shift should be between 0 and 25");
+				System.exit(0);
+			}else if (rotate < 0) {
+				System.out.println("The rotation should be greater than or equal to 0");
+				System.exit(0);
+			}else if (shift == 0 && rotate == 0) {
+				System.out.println("No Encryption Applied");
+				System.exit(0);
+			}
+		}
+	//Encoding Method
+		void encodeMessage() {
+			//For the shift
+			if (shift == 0) {
+				shiftresult = message;
+			}else {
+			for (int i = 0; i < message.length(); i++) {
+				char character = message.charAt(i);
+				if (Character.isLetter(character)) {
+					if (Character.isLowerCase(character)) {
+						char ch = (char)(character+shift);
+						if (ch > 'z') {
+							shiftresult += (char)(character - (26 - shift));
+						}else {
+							shiftresult += ch;
+						}
+					}else if (Character.isUpperCase(character)) {
+						char ch = (char)(character+shift);
+						if (ch > 'Z') {
+							shiftresult += (char)(character - (26 - shift));
+						}else {
+							shiftresult += ch;
+						}
+					}
+				}else {
+					shiftresult += character;
+				}
+			}
+			}
+			//For the rotation
+			if (rotate == 0) {
+				finalresult = shiftresult;
+			}else {
+			char[] shiftedArray = shiftresult.toCharArray();
+			char[] rotatedArray = new char[shiftedArray.length];
+			
+			for (int i = 0; i < rotate; i++) {
+				for (int j = 0; j < shiftedArray.length - 1; j++) {
+					rotatedArray[j + 1] = shiftedArray[j];
+				}
+				rotatedArray[0] = shiftedArray[shiftedArray.length - 1];
+				shiftedArray = rotatedArray.clone();
+			}
+			finalresult = String.copyValueOf(rotatedArray);
+			}
+		}
+	//Getter Function
+		String getResult() {
+			return finalresult;
+		}
+}
