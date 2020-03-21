@@ -1,0 +1,21 @@
+package edu.manhattan;
+import java.util.*;
+
+public class MainClass {
+
+	public static void main(String[] args) {
+		CipherCoder cipher = new CipherCoder();
+			Scanner scanner = new Scanner(System.in);
+				System.out.println("Enter your message: ");
+				cipher.setMessage(scanner.nextLine());
+				System.out.println("Enter shift amount: ");
+				cipher.setShift(scanner.nextInt());
+				System.out.println("Enter the rotation amount: ");
+				cipher.setRotate(scanner.nextInt());
+			scanner.close();
+			
+			cipher.verifyInput();
+			cipher.encodeMessage();
+			System.out.println("Your cipher encoded message is: " + cipher.getResult());
+	}
+}
